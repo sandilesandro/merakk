@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MERAK — Tea for Everyday Rituals</title>
+  
+  <!-- Site Favicon -->
+  <link rel="icon" type="image/png" href="merak_logo_2.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-cream: #F9F7F4;
+      --bg-card: #F2EFEA;
+      --text-dark: #232220;
+      --text-muted: #6B6862;
+      --accent-yellow: #E2B024;
+      --accent-yellow-light: #F7E393;
+      --accent-terracotta: #B85D43;
+      --accent-sage: #6E7E6F;
+      --accent-navy: #2C3742;
+      --border-light: #E2DDD5;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      font-family: var(--font-sans);
+      font-weight: 300;
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, .serif {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      line-height: 1.25;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section-padding {
+      padding: 7.25rem 0;
+    }
+
+    /* Transparent Navigation Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background-color: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(12px);
+   
+    }
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 5.5rem;
+    }
+
+    .nav-logo {
+      height: 38px;
+      width: auto;
+      display: block;
+      filter: brightness(0) invert(1);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 2.25rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+      font-size: 0.8125rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+    }
+
+    .nav-links a {
+      transition: color 0.2s, opacity 0.2s;
+      opacity: 0.85;
+    }
+
+    .nav-links a:hover {
+      opacity: 1;
+      color: var(--accent-yellow-light);
+    }
+
+    /* Header Cart Button */
+    .cart-trigger-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #FFFFFF;
+      padding: 0.5rem 0.875rem;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      transition: background-color 0.25s, border-color 0.25s;
+    }
+
+    .cart-trigger-btn:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      border-color: #FFFFFF;
+    }
+
+    .cart-trigger-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .cart-count-badge {
+      background-color: var(--accent-yellow);
+      color: #121814;
+      font-weight: 600;
+      font-size: 0.75rem;
+      width: 19px;
+      height: 19px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Hamburger Trigger Button */
+    .hamburger-open-btn {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      width: 32px;
+      height: 32px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .hamburger-open-btn span {
+      display: block;
+      height: 2px;
+      background-color: #FFFFFF;
+      border-radius: 1px;
+    }
+
+    .hamburger-open-btn span:nth-child(2) {
+      width: 21px;
+      align-self: flex-end;
+    }
+
+    /* Mobile Overlay Navigation Drawer */
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #121814;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .mobile-menu.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .mobile-close-btn {
+      position: absolute;
+      top: 1.75rem;
+      right: 2rem;
+      background: transparent;
+      border: none;
+      color: #FFFFFF;
+      font-size: 2.25rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0.5rem;
+      font-family: var(--font-sans);
+      font-weight: 300;
+    }
+
+    .mobile-nav-links {
+      list-style: none;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 2.25rem;
+    }
+
+    .mobile-nav-links a {
+      font-family: var(--font-serif);
+      font-size: 2.25rem;
+      color: #FFFFFF;
+      transition: color 0.2s;
+    }
+
+    .mobile-nav-links a:hover {
+      color: var(--accent-yellow);
+    }
+
+    @media (min-width: 901px) {
+      .hamburger-open-btn {
+        display: none;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
+      }
+    }
+
+    /* Fullscreen Hero Section */
+    .hero-fullscreen {
+      position: relative;
+      height: 100vh;
+      min-height: 650px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #FFFFFF;
+      background: url('bg.png') center/cover no-repeat;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg, 
+        rgba(30, 24, 20, 0.95) 0%, 
+        rgba(18, 24, 20, 0.80) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 820px;
+      padding: 0 2rem;
+    }
+
+    .hero-subtitle {
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--accent-yellow-light);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+      margin-bottom: 1.75rem;
+      font-style: italic;
+      color: #FFFFFF;
+    }
+
+    .hero-description {
+      font-size: 1.125rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0 auto 2.75rem auto;
+      max-width: 600px;
+    }
+
+    .btn-hero {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 0.75rem 0;
+      border: none;
+      background: transparent;
+      color: #FFFFFF;
+      font-size: 0.8125rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .btn-hero .arrow-icon {
+      font-size: 1.125rem;
+      line-height: 1;
+      color: var(--accent-yellow);
+      display: inline-block;
+      animation: subtleBounce 2.4s infinite ease-in-out;
+    }
+
+    .btn-hero:hover {
+      color: var(--accent-yellow-light);
+    }
+
+    @keyframes subtleBounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(6px); }
+      60% { transform: translateY(3px); }
+    }
+
+    /* Brand Story Banner */
+    .story-banner {
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .story-image {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+
+    .story-content h2 {
+      font-size: 2.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .story-content p {
+      margin-bottom: 1.25rem;
+      color: var(--text-muted);
+    }
+
+    .quote-box {
+      border-left: 3px solid var(--accent-yellow);
+      padding-left: 1.75rem;
+      margin-top: 2rem;
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--text-dark);
+    }
+
+    /* Products Section */
+    .section-title {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .collection-feature {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 3rem;
+      margin-bottom: 4rem;
+      align-items: center;
+      background: #FFFFFF;
+      border: 1px solid var(--border-light);
+      padding: 2rem;
+    }
+
+    .collection-feature img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .product-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-light);
+      padding: 2.5rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-yellow);
+    }
+
+    .product-badge {
+      width: 100%;
+      height: 4px;
+      margin-bottom: 1.75rem;
+    }
+
+    .badge-original { background-color: var(--accent-yellow); }
+    .badge-daybreak { background-color: #F3C649; }
+    .badge-pause { background-color: var(--accent-sage); }
+    .badge-exhale { background-color: var(--accent-navy); }
+
+    .product-title {
+      font-size: 1.375rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .product-blend {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .product-desc {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      margin-bottom: 1.75rem;
+      flex-grow: 1;
+    }
+
+    .product-purchase-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--border-light);
+    }
+
+    .product-price {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+
+    .btn-add-cart {
+      background-color: #121814;
+      color: #FFFFFF;
+      border: none;
+      padding: 0.625rem 1.125rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background-color 0.25s ease;
+    }
+
+    .btn-add-cart:hover {
+      background-color: var(--accent-yellow);
+      color: #121814;
+    }
+
+    .ritual-cue {
+      border-top: 1px solid var(--border-light);
+      padding-top: 1.25rem;
+      font-size: 0.8125rem;
+      font-style: italic;
+      color: var(--text-dark);
+    }
+
+    /* Ritual Walkthrough */
+    .ritual-section {
+      background-color: var(--bg-card);
+      border-top: 1px solid var(--border-light);
+    }
+
+    .ritual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .ritual-image {
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .step-num {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      color: var(--accent-yellow);
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .step-body h3 {
+      font-size: 1.125rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .step-body p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    /* Stockists Section */
+    .stockists-section {
+      text-align: center;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .stockist-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3.5rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+      opacity: 0.75;
+      font-family: var(--font-serif);
+      letter-spacing: 0.12em;
+      font-size: 1.125rem;
+    }
+
+    /* Footer Styles */
+    footer {
+      background-color: #1C1B19;
+      color: var(--bg-cream);
+      padding: 5.25rem 0 2rem 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.25fr;
+      gap: 3.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .footer-logo {
+      height: 42px;
+      width: auto;
+      margin-bottom: 1.5rem;
+      filter: brightness(0) invert(1);
+      opacity: 0.9;
+    }
+
+    .footer-brand p {
+      color: #9E9B95;
+      max-width: 320px;
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Social Media Icons */
+    .social-links {
+      display: flex;
+      gap: 0.875rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .social-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background-color: #2E2C29;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #D3CFCA;
+      transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+    }
+
+    .social-icon svg {
+      width: 17px;
+      height: 17px;
+      fill: currentColor;
+    }
+
+    .social-icon:hover {
+      background-color: var(--accent-yellow);
+      color: #121814;
+      transform: translateY(-2px);
+    }
+
+    .footer-col h4 {
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1.5rem;
+      color: var(--accent-yellow);
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-col ul li a, .footer-col ul li button {
+      color: #9E9B95;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+    }
+
+    .footer-col ul li a:hover, .footer-col ul li button:hover {
+      color: var(--bg-cream);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #2E2C29;
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #7A7772;
+      font-size: 0.75rem;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+    }
+
+    .footer-credits {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .created-by {
+      color: #9E9B95;
+    }
+
+    .created-by a {
+      color: var(--accent-yellow);
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+
+    .created-by a:hover {
+      color: var(--accent-yellow-light);
+    }
+
+    .legal-inline-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .legal-inline-links button {
+      background: none;
+      border: none;
+      color: #7A7772;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .legal-inline-links button:hover {
+      color: var(--accent-yellow);
+    }
+
+    /* Modal Styles for Legal Pages */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(18, 24, 20, 0.82);
+      backdrop-filter: blur(6px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-container {
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      width: 100%;
+      max-width: 780px;
+      max-height: 82vh;
+      border-radius: 4px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .modal-header {
+      padding: 1.75rem 2.25rem;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #FFFFFF;
+    }
+
+    .modal-header h3 {
+      font-size: 1.5rem;
+      color: var(--text-dark);
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: none;
+      font-size: 1.75rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1;
+      padding: 0.25rem;
+      transition: color 0.2s;
+    }
+
+    .modal-close-btn:hover {
+      color: var(--text-dark);
+    }
+
+    .modal-body {
+      padding: 2.25rem;
+      overflow-y: auto;
+      font-size: 0.9375rem;
+      line-height: 1.75;
+      color: #42403C;
+    }
+
+    .modal-body h4 {
+      font-size: 1.125rem;
+      margin: 1.5rem 0 0.5rem 0;
+      color: var(--text-dark);
+    }
+
+    .modal-body h4:first-child {
+      margin-top: 0;
+    }
+
+    .modal-body p {
+      margin-bottom: 1.25rem;
+    }
+
+    /* Sliding Cart Drawer Styles */
+    .cart-drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(18, 24, 20, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 9990;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .cart-drawer-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 420px;
+      height: 100vh;
+      background-color: #FFFFFF;
+      z-index: 9995;
+      box-shadow: -8px 0 32px rgba(0, 0, 0, 0.2);
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-drawer.active {
+      transform: translateX(0);
+    }
+
+    .cart-drawer-header {
+      padding: 1.75rem 2rem;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-drawer-header h3 {
+      font-size: 1.375rem;
+    }
+
+    .cart-drawer-body {
+      padding: 1.5rem 2rem;
+      flex-grow: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .cart-empty-msg {
+      text-align: center;
+      margin: auto 0;
+      color: var(--text-muted);
+      font-size: 0.9375rem;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .cart-item-title {
+      font-family: var(--font-serif);
+      font-size: 1.0625rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .cart-item-price {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .cart-item-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .cart-qty-btn {
+      width: 26px;
+      height: 26px;
+      border: 1px solid var(--border-light);
+      background: var(--bg-cream);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+    }
+
+    .cart-drawer-footer {
+      padding: 2rem;
+      border-top: 1px solid var(--border-light);
+      background-color: var(--bg-cream);
+    }
+
+    .cart-subtotal {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.125rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-checkout {
+      width: 100%;
+      background-color: #121814;
+      color: #FFFFFF;
+      border: none;
+      padding: 1rem;
+      font-size: 0.8125rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background-color 0.25s ease;
+    }
+
+    .btn-checkout:hover {
+      background-color: var(--accent-yellow);
+      color: #121814;
+    }
+
+    /* Back To Top Floating Action Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 2.25rem;
+      right: 2.25rem;
+      width: 46px;
+      height: 46px;
+      background-color: var(--accent-yellow);
+      color: #121814;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      cursor: pointer;
+      z-index: 90;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(12px);
+      transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover {
+      background-color: #ECC038;
+    }
+
+    @media (max-width: 980px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .story-grid, .ritual-grid, .collection-feature {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .back-to-top {
+        bottom: 1.5rem;
+        right: 1.5rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body id="top">
+
+  <!-- Navigation Header -->
+  <header>
+    <div class="container nav-wrapper">
+      <a href="#top">
+        <img src="merak_logo_2.png" alt="MERAK Premium Teas" class="nav-logo">
+      </a>
+      
+      <div class="nav-right">
+        <!-- Desktop Links -->
+        <ul class="nav-links">
+          <li><a href="#collection">Collection</a></li>
+          <li><a href="#story">Our Story</a></li>
+          <li><a href="#ritual">The Ritual</a></li>
+          <li><a href="#stockists">Stockists</a></li>
+        </ul>
+
+        <!-- Shopping Cart Trigger Button -->
+        <button class="cart-trigger-btn" id="openCartBtn" aria-label="Open Shopping Bag">
+          <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          Bag <span class="cart-count-badge" id="cartBadgeCount">0</span>
+        </button>
+
+        <!-- Hamburger Open Trigger -->
+        <button class="hamburger-open-btn" id="openMenuBtn" aria-label="Open menu">
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay Navigation -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close-btn" id="closeMenuBtn" aria-label="Close menu">&#10005;</button>
+    
+    <ul class="mobile-nav-links">
+      <li><a href="#top" class="mobile-link">Home</a></li>
+      <li><a href="#collection" class="mobile-link">Collection</a></li>
+      <li><a href="#story" class="mobile-link">Our Story</a></li>
+      <li><a href="#ritual" class="mobile-link">The Ritual</a></li>
+      <li><a href="#stockists" class="mobile-link">Stockists</a></li>
+    </ul>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-fullscreen">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-subtitle">South African Rooibos & Botanicals</span>
+      <h1 class="hero-title">Life is found in the moments we choose to keep.</h1>
+      <p class="hero-description">
+        MERAK transforms an everyday cup of tea into a quiet ritual. Crafted with pure South African rooibos and organic botanicals to help you pause, reflect, and reconnect.
+      </p>
+      <a href="#collection" class="btn-hero">
+        Explore The Blends <span class="arrow-icon">&#8595;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Brand Story -->
+  <section id="story" class="section-padding story-banner">
+    <div class="container story-grid">
+      <img src="16223.jpg" alt="Quiet morning ritual with tea" class="story-image">
+      <div class="story-content">
+        <h2>The Art of Slowing Down</h2>
+        <p>
+          In a world that moves too fast, MERAK invites a return to presence. Born from the belief that life's greatest luxuries are often its simplest, every blend is crafted as an invitation to breathe.
+        </p>
+        <p>
+          It is the warmth of a cup held between your hands. The stillness before the day begins. The conversation that lingers long after the tea has gone cold.
+        </p>
+        <div class="quote-box">
+          "Life isn't measured by how busy we are, but by how deeply we experience the moments in between."
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section id="collection" class="section-padding container">
+    <div class="section-title">
+      <h2>The Collection</h2>
+      <p>Four curated blends for everyday rituals</p>
+    </div>
+
+    <div class="collection-feature">
+      <img src="6310.jpg" alt="Raw botanicals and loose tea leaves">
+      <div>
+        <h3 class="serif" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Crafted from Source</h3>
+        <p style="color: var(--text-muted); font-size: 0.9375rem;">
+          Rather than competing through generic health claims, MERAK builds emotional connection through modern design, rich botanical storytelling, and quiet quality.
+        </p>
+      </div>
+    </div>
+
+    <div class="product-grid">
+      <article class="product-card">
+        <div>
+          <div class="product-badge badge-original"></div>
+          <h3 class="product-title">MERAK Original</h3>
+          <p class="product-blend">100% South African Rooibos</p>
+          <p class="product-desc">
+            Crafted from pure South African rooibos, Original celebrates the beauty of simplicity. Smooth, comforting, and quietly familiar.
+          </p>
+        </div>
+        <div>
+          <div class="product-purchase-row">
+            <span class="product-price">R145.00</span>
+            <button class="btn-add-cart" onclick="addToCart('MERAK Original', 145)">Add to Bag</button>
+          </div>
+          <div class="ritual-cue">
+            <strong>Ritual Cue:</strong> Sip slowly.
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div>
+          <div class="product-badge badge-daybreak"></div>
+          <h3 class="product-title">MERAK Daybreak</h3>
+          <p class="product-blend">Citrus Chai Rooibos</p>
+          <p class="product-desc">
+            Blending rooibos with bright citrus and warming chai spices. Greet the day with curiosity, optimism, and presence.
+          </p>
+        </div>
+        <div>
+          <div class="product-purchase-row">
+            <span class="product-price">R165.00</span>
+            <button class="btn-add-cart" onclick="addToCart('MERAK Daybreak', 165)">Add to Bag</button>
+          </div>
+          <div class="ritual-cue">
+            <strong>Ritual Cue:</strong> Begin beautifully.
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div>
+          <div class="product-badge badge-pause"></div>
+          <h3 class="product-title">MERAK Pause</h3>
+          <p class="product-blend">Ginger Rooibos</p>
+          <p class="product-desc">
+            Warming ginger meets rich rooibos. Created for the moments between moments—after a shared meal or between meetings.
+          </p>
+        </div>
+        <div>
+          <div class="product-purchase-row">
+            <span class="product-price">R165.00</span>
+            <button class="btn-add-cart" onclick="addToCart('MERAK Pause', 165)">Add to Bag</button>
+          </div>
+          <div class="ritual-cue">
+            <strong>Ritual Cue:</strong> Take your moment.
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div>
+          <div class="product-badge badge-exhale"></div>
+          <h3 class="product-title">MERAK Exhale</h3>
+          <p class="product-blend">Chamomile Rooibos</p>
+          <p class="product-desc">
+            Gentle chamomile blended with rooibos invites you to soften the pace, quiet the noise, and reconnect with yourself.
+          </p>
+        </div>
+        <div>
+          <div class="product-purchase-row">
+            <span class="product-price">R175.00</span>
+            <button class="btn-add-cart" onclick="addToCart('MERAK Exhale', 175)">Add to Bag</button>
+          </div>
+          <div class="ritual-cue">
+            <strong>Ritual Cue:</strong> Breathe deeply.
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Ritual Section -->
+  <section id="ritual" class="section-padding ritual-section">
+    <div class="container ritual-grid">
+      <div class="steps-list">
+        <div>
+          <h2 class="serif" style="font-size: 2.25rem; margin-bottom: 0.5rem;">The Steeping Ritual</h2>
+          <p style="color: var(--text-muted); margin-bottom: 2rem;">A simple daily walkthrough for intentional living.</p>
+        </div>
+
+        <div class="step-item">
+          <span class="step-num">01</span>
+          <div class="step-body">
+            <h3>Prepare</h3>
+            <p>Heat fresh water to a soft boil. Select a cup that feels substantial and comforting in your hands.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <span class="step-num">02</span>
+          <div class="step-body">
+            <h3>Steep</h3>
+            <p>Allow your blend to steep for 4 to 5 minutes as the amber hue and rich aromas gradually reveal themselves.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <span class="step-num">03</span>
+          <div class="step-body">
+            <h3>Pause</h3>
+            <p>Step away from screens and notifications. Feel the warm porcelain before taking your first sip.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <span class="step-num">04</span>
+          <div class="step-body">
+            <h3>Sip</h3>
+            <p>Savour the natural botanicals and allow yourself a quiet moment to simply be.</p>
+          </div>
+        </div>
+      </div>
+
+      <img src="63668.jpg" alt="Pouring hot herbal tea into cup" class="ritual-image">
+    </div>
+  </section>
+
+  <!-- Stockists -->
+  <section id="stockists" class="section-padding stockists-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Available At</h2>
+        <p>Find MERAK in curated lifestyle & wellness spaces</p>
+      </div>
+      <div class="stockist-logos">
+        <span>WOOLWORTHS</span>
+        <span>WELLNESS WAREHOUSE</span>
+        <span>POETRY</span>
+        <span>YUPPIECHEF</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="merak_logo.png" alt="MERAK Logo" class="footer-logo">
+          <p>Tea for Everyday Rituals. Modern South African rooibos and botanicals crafted for quiet confidence and intentional living.</p>
+          
+          <!-- Social Media Icons -->
+          <div class="social-links">
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="https://pinterest.com" target="_blank" rel="noopener" class="social-icon" aria-label="Pinterest">
+              <svg viewBox="0 0 24 24"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026l.032-.026z"/></svg>
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook">
+              <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://x.com" target="_blank" rel="noopener" class="social-icon" aria-label="Twitter">
+              <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener" class="social-icon" aria-label="YouTube">
+              <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#collection">Blends</a></li>
+            <li><a href="#story">Our Story</a></li>
+            <li><a href="#ritual">The Ritual</a></li>
+            <li><a href="#stockists">Stockists</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><button onclick="openModal('privacyModal')">Privacy Policy</button></li>
+            <li><button onclick="openModal('termsModal')">Terms of Service</button></li>
+            <li><button onclick="openModal('shippingModal')">Shipping & Returns</button></li>
+            <li><button onclick="openModal('cookieModal')">Cookie Policy</button></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li>Merak Tea Packers (Pty) Ltd</li>
+            <li>Johannesburg, South Africa</li>
+            <li>hello@merak.co.za</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-credits">
+          <p>&copy; 2026 MERAK Premium Teas. All rights reserved.</p>
+          <p class="created-by">Created by <a href="https://thubani.vercel.app" target="_blank" rel="noopener">Thubani Media</a></p>
+        </div>
+        <ul class="legal-inline-links">
+          <li><button onclick="openModal('privacyModal')">Privacy</button></li>
+          <li><button onclick="openModal('termsModal')">Terms</button></li>
+          <li><button onclick="openModal('cookieModal')">Cookies</button></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Slide-Out Shopping Cart Drawer -->
+  <div class="cart-drawer-backdrop" id="cartBackdrop" onclick="toggleCart(false)"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+      <h3>Your Selection</h3>
+      <button class="modal-close-btn" onclick="toggleCart(false)">&times;</button>
+    </div>
+    <div class="cart-drawer-body" id="cartItemsContainer">
+      <div class="cart-empty-msg">Your ritual bag is currently empty.</div>
+    </div>
+    <div class="cart-drawer-footer">
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">R0.00</span>
+      </div>
+      <button class="btn-checkout" onclick="initiateCheckout()">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <!-- Back to Top Button -->
+  <a href="#top" class="back-to-top" id="backToTopBtn" aria-label="Back to top">&#8593;</a>
+
+  <!-- Legal Modals -->
+  <div class="modal-overlay" id="privacyModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Privacy Policy</h3>
+        <button class="modal-close-btn" onclick="closeModal('privacyModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h4>1. Information Collection</h4>
+        <p>At MERAK, we respect your right to personal privacy. We collect personal details strictly necessary for order processing, subscriber updates, and customer support.</p>
+        <h4>2. Data Protection</h4>
+        <p>Your details are secured with industry-standard encryption protocols and will never be rented, sold, or shared with third parties without your explicit consent.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="termsModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Terms of Service</h3>
+        <button class="modal-close-btn" onclick="closeModal('termsModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h4>1. General Terms</h4>
+        <p>By browsing or placing an order through MERAK, you agree to adhere to the terms and guidelines outlined herein. All content on this store remains the intellectual property of MERAK Tea Packers.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="shippingModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Shipping & Returns</h3>
+        <button class="modal-close-btn" onclick="closeModal('shippingModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h4>1. Fulfillment Timelines</h4>
+        <p>Orders are dispatched from our packing facility within 24 to 48 hours. Standard courier transit typically requires between 2 and 4 business days.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="cookieModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Cookie Policy</h3>
+        <button class="modal-close-btn" onclick="closeModal('cookieModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h4>1. Usage of Cookies</h4>
+        <p>We deploy essential session cookies to allow seamless cart navigation and to save your preferences during your visit to our website.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Confirmation Modal -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Order Confirmation</h3>
+        <button class="modal-close-btn" onclick="closeModal('checkoutModal')">&times;</button>
+      </div>
+      <div class="modal-body" style="text-align: center; padding: 3.25rem 2.25rem;">
+        <h4 style="font-family: var(--font-serif); font-size: 1.75rem; margin-bottom: 0.75rem;">Thank You for Choosing MERAK</h4>
+        <p>Your order has been simulated successfully. Prepare for your upcoming steeping ritual.</p>
+        <button class="btn-checkout" style="max-width: 240px; margin-top: 1.5rem;" onclick="completeOrder()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script for Cart, Navigation, Back To Top, & Modals -->
+  <script>
+    /* Shopping Cart Logic */
+    let cart = [];
+
+    function addToCart(title, price) {
+      const existing = cart.find(item => item.title === title);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ title, price, qty: 1 });
+      }
+      updateCartUI();
+      toggleCart(true);
+    }
+
+    function changeQty(title, delta) {
+      const item = cart.find(i => i.title === title);
+      if (item) {
+        item.qty += delta;
+        if (item.qty <= 0) {
+          cart = cart.filter(i => i.title !== title);
+        }
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const container = document.getElementById('cartItemsContainer');
+      const badge = document.getElementById('cartBadgeCount');
+      const subtotalEl = document.getElementById('cartSubtotal');
+
+      const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+      badge.textContent = totalItems;
+      subtotalEl.textContent = `R${subtotal.toFixed(2)}`;
+
+      if (cart.length === 0) {
+        container.innerHTML = '<div class="cart-empty-msg">Your ritual bag is currently empty.</div>';
+        return;
+      }
+
+      container.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <div>
+            <div class="cart-item-title">${item.title}</div>
+            <div class="cart-item-price">R${item.price.toFixed(2)}</div>
+          </div>
+          <div class="cart-item-controls">
+            <button class="cart-qty-btn" onclick="changeQty('${item.title}', -1)">-</button>
+            <span>${item.qty}</span>
+            <button class="cart-qty-btn" onclick="changeQty('${item.title}', 1)">+</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleCart(show) {
+      const drawer = document.getElementById('cartDrawer');
+      const backdrop = document.getElementById('cartBackdrop');
+      if (show) {
+        drawer.classList.add('active');
+        backdrop.classList.add('active');
+      } else {
+        drawer.classList.remove('active');
+        backdrop.classList.remove('active');
+      }
+    }
+
+    document.getElementById('openCartBtn').addEventListener('click', () => toggleCart(true));
+
+    function initiateCheckout() {
+      if (cart.length === 0) return;
+      toggleCart(false);
+      openModal('checkoutModal');
+    }
+
+    function completeOrder() {
+      cart = [];
+      updateCartUI();
+      closeModal('checkoutModal');
+    }
+
+    /* Mobile Menu Logic */
+    const openMenuBtn = document.getElementById('openMenuBtn');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    const backToTopBtn = document.getElementById('backToTopBtn');
+
+    function openMenu() {
+      mobileMenu.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    openMenuBtn.addEventListener('click', openMenu);
+    closeMenuBtn.addEventListener('click', closeMenu);
+    mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+    /* Scroll Listener */
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 380) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    });
+
+    /* Legal Modal Handlers */
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
